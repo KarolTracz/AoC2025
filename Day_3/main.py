@@ -3,25 +3,31 @@ with open('input.txt') as f:
     raw_input = [i.strip() for i in f.readlines()]
 
 def main():
-    sum_of_jolts = 0
+    sum_of_jolts_part_1 = 0
+    sum_of_jolts_part_2 = 0
     for battery in raw_input:
-        battery_jolts = calc_battery_jolts(battery=battery)
-        sum_of_jolts += battery_jolts
-    print(sum_of_jolts)
+        battery_jolts_2 = calc_battery_jolts(battery=battery, lenght=2)
+        sum_of_jolts_part_1 += battery_jolts_2
 
-def calc_battery_jolts(battery: str) -> int:
-    cur_max = int(battery[:2])
+        battery_jolts_12 = calc_battery_jolts(battery=battery, lenght=12)
+        sum_of_jolts_part_2 += battery_jolts_12
 
-    for i in battery[2:]:
-        first_candidate = int(str(cur_max)[0] + i)
-        second_candidate = int(str(cur_max)[1] + i)
+    print(sum_of_jolts_part_1)
+    print(sum_of_jolts_part_2)
 
-        if first_candidate > cur_max:
-            cur_max = first_candidate
-        if second_candidate > cur_max:
-            cur_max = second_candidate
+def calc_battery_jolts(battery: str, lenght: int) -> int:
+    cur_max = battery[:lenght]
 
-    return cur_max
+    for jolt in battery[lenght:]:
+        best = cur_max
+
+        for i in range(lenght):
+            candidate = cur_max[:i] + cur_max[i+1:] + jolt
+            if int(candidate) > int(best):
+                best = candidate
+        cur_max = best
+
+    return int(cur_max)
 
 if __name__ == '__main__':
     main()
