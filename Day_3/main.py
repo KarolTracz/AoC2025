@@ -6,22 +6,22 @@ def main():
     sum_of_jolts_part_1 = 0
     sum_of_jolts_part_2 = 0
     for battery in raw_input:
-        battery_jolts_2 = calc_battery_jolts(battery=battery, lenght=2)
+        battery_jolts_2 = calc_battery_jolts(battery=battery, length=2)
         sum_of_jolts_part_1 += battery_jolts_2
 
-        battery_jolts_12 = calc_battery_jolts(battery=battery, lenght=12)
+        battery_jolts_12 = calc_battery_jolts(battery=battery, length=12)
         sum_of_jolts_part_2 += battery_jolts_12
 
     print(sum_of_jolts_part_1)
     print(sum_of_jolts_part_2)
 
-def calc_battery_jolts(battery: str, lenght: int) -> int:
-    cur_max = battery[:lenght]
+def calc_battery_jolts(battery: str, length: int) -> int:
+    cur_max = battery[:length]
 
-    for jolt in battery[lenght:]:
+    for jolt in battery[length:]:
         best = cur_max
 
-        for i in range(lenght):
+        for i in range(length):
             candidate = cur_max[:i] + cur_max[i+1:] + jolt
             if int(candidate) > int(best):
                 best = candidate
