@@ -5,12 +5,44 @@ with open('input.txt') as f:
 
 def main():
     result = 0
-    for y, row in enumerate(raw_input):
+
+    old_puzzle = raw_input
+    new_puzzle = old_puzzle.copy()
+    removed = []
+
+    for y, row in enumerate(old_puzzle):
         for x, char in enumerate(row):
             if char == '@':
                 if check_neighbor(puzzle_input=raw_input, pos=(y, x)):
                     result += 1
+                    removed.append((y, x,))
+    print(result)
+    for pos in removed:
+        new_puzzle_copy = new_puzzle.copy()
+        row = list(new_puzzle_copy[pos[0]])
+        row[pos[1]] = '.'
+        new_puzzle_copy[pos[0]] = ''.join(row)
+        new_puzzle = new_puzzle_copy
 
+    while True:
+        if new_puzzle != old_puzzle:
+            old_puzzle = new_puzzle
+
+            for y, row in enumerate(old_puzzle):
+                for x, char in enumerate(row):
+                    if char == '@':
+                        if check_neighbor(puzzle_input=old_puzzle, pos=(y, x)):
+                            result += 1
+                            removed.append((y, x,))
+        else:
+            break
+
+        for pos in removed:
+            new_puzzle_copy = new_puzzle.copy()
+            row = list(new_puzzle_copy[pos[0]])
+            row[pos[1]] = '.'
+            new_puzzle_copy[pos[0]] = ''.join(row)
+            new_puzzle = new_puzzle_copy
     print(result)
 
 
